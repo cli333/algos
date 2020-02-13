@@ -17,6 +17,14 @@ e.right = f;
 
 // find the lowest common ancestor of two nodes
 
-const lca = (main, a, b) => {};
+const lca = (main, a, b) => {
+  if (!main) return null;
+  if (main.val === a || main.val === b) return main;
+  let left = lca(main.left, a, b);
+  let right = lca(main.right, a, b);
+  if (left && right) return main;
+  if (!left && !right) return null;
+  return left ? left : right;
+};
 
-console.log(lca(a, d, f));
+console.log(lca(a, "d", "f"));
