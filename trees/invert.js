@@ -26,8 +26,8 @@ const inv = root => {
 
 const inv2 = root => {
 	if (!root) return root;
-	root.left = inv2(root.left);
-	root.right = inv2(root.right);
+	let left = inv2(root.left);
+	let right = inv2(root.right);
 
 	// swap here
 	root.right = left;
