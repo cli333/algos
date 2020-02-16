@@ -1,4 +1,4 @@
-const { Node } = require('./index');
+const { Node } = require("./index");
 
 // merge, splice two lists, return new list
 
@@ -14,35 +14,35 @@ c.next = d;
 d.next = e;
 
 const print = head => {
-	let out = [];
-	while (head) {
-		out.push(head.val);
-		head = head.next;
-	}
-	return out;
+  let out = [];
+  while (head) {
+    out.push(head.val);
+    head = head.next;
+  }
+  return out;
 };
 
 const merge = (head1, head2) => {
-	let temp = new Node(null);
-	let head = temp;
+  let temp = new Node(null);
+  let head = temp;
 
-	while (head1 && head2) {
-		head.next = head1;
-		head = head.next;
-		head.next = head2;
-		head = head.next;
-		head1 = head1.next;
-		head2 = head2.next;
-	}
+  while (head1 && head2) {
+    head.next = head1;
+    head = head.next;
+    head.next = head2;
+    head = head.next;
+    head1 = head1.next;
+    head2 = head2.next;
+  }
 
-	if (head1) {
-		head.next = head1;
-	}
-	if (head2) {
-		head.next = head2;
-	}
+  if (head1) {
+    head.next = head1;
+  }
+  if (head2) {
+    head.next = head2;
+  }
 
-	return temp.next;
+  return temp.next;
 };
 
 console.log(print(merge(a, c)));
@@ -50,28 +50,28 @@ console.log(print(merge(a, c)));
 // merge, compare values
 
 const merge2 = (head1, head2) => {
-	let temp = new Node(null);
-	let head = temp;
+  let temp = new Node(null);
+  let head = temp;
 
-	while (head1 && head2) {
-		if (head1.val < head2.val) {
-			head.next = head1;
-			head1 = head1.next;
-		} else if (head2.val < head1.val) {
-			head.next = head2;
-			head2 = head2.next;
-		}
-		head = head.next;
-	}
+  while (head1 && head2) {
+    if (head1.val < head2.val) {
+      head.next = head1;
+      head1 = head1.next;
+    } else if (head2.val < head1.val) {
+      head.next = head2;
+      head2 = head2.next;
+    }
+    head = head.next;
+  }
 
-	if (head1) {
-		head.next = head1;
-	}
-	if (head2) {
-		head.next = head2;
-	}
+  if (head1) {
+    head.next = head1;
+  }
+  if (head2) {
+    head.next = head2;
+  }
 
-	return temp.next;
+  return temp.next;
 };
 
-console.log(print(merge2(a, c)));
+// console.log(print(merge2(a, c)));
