@@ -11,6 +11,8 @@ const nextGreater = nums => {
   let stack = [];
 
   // hint: see if a string's rotation is in another string
+  // put indices into stack
+  // use i % n to get indices beyond nums.length
   for (let i = 0; i < n * 2; i++) {
     //                       // on the stack               // current value
     while (stack.length && nums[stack[stack.length - 1]] < nums[i % n]) {
