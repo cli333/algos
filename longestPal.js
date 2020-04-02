@@ -1,0 +1,40 @@
+// Share
+// Given a string which consists of lowercase or uppercase letters, find the length of the longest palindromes that can be built with those letters.
+
+// This is case sensitive, for example "Aa" is not considered a palindrome here.
+
+//   Note:
+// Assume the length of given string will not exceed 1, 010.
+
+//   Example:
+
+// Input:
+// "abccccdd"
+
+// Output:
+// 7
+
+// Explanation:
+// One longest palindrome that can be built is "dccaccd", whose length is 7.
+
+const longest = string => {
+  // find the length
+  // not the actual palindrome
+
+  let length = 0;
+
+  const charMap = string.split("").reduce((a, b) => {
+    a[b] = a[b] + 1 || 1;
+    return a;
+  }, {});
+
+  for (let char in charMap) {
+    if (charMap[char] % 2 === 0) {
+      length += charMap[char];
+    }
+  }
+
+  return length + 1;
+};
+
+console.log(longest("abccccdd")); // 7
