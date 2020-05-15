@@ -43,6 +43,7 @@ const solve = (root) => {
 
   function trav(root, modes) {
     // oN time o1 space
+  }
 };
 
 console.log(solve(a));
