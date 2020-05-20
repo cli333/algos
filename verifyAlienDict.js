@@ -6,6 +6,7 @@ const solve = (words, order) => {
   for (let i = 1; i < words.length; i++) {
     let curWord = words[i - 1];
     let nextWord = words[i];
+
     if (!check(curWord, nextWord, abc)) return false;
   }
 
@@ -14,10 +15,11 @@ const solve = (words, order) => {
   function check(curWord, nextWord, abc) {
     let c = 0;
     let n = 0;
-    console.log({ curWord, nextWord, abc });
+
     while (c < curWord.length && n < nextWord.length) {
       let charCurWord = curWord[c];
-      let charNextWord = curWord[n];
+      let charNextWord = nextWord[n];
+
       if (abc[charCurWord] < abc[charNextWord]) break;
       if (abc[charCurWord] > abc[charNextWord]) return false;
       c++;
@@ -28,8 +30,8 @@ const solve = (words, order) => {
   }
 };
 
-// solve(["hello", "leetcode"], "hlabcdefghijk"); // true
+console.log(solve(["hello", "leetcode"], "hlabcdefgijk")); // true
 
-// solve(["word", "world", "row"], "worldabcedefadsf"); // false
+console.log(solve(["word", "world", "row"], "worldabcedefadsf")); // false
 
-// solve(["apple", "app"], "abcdefghijklmnopqrstuvwxyz"); // false, shorter strings should come first after following the lexigraphical order
+console.log(solve(["apple", "app"], "abcdefghijklmnopqrstuvwxyz")); // false, shorter strings should come first after following the lexigraphical order
