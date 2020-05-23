@@ -4,16 +4,12 @@ function solve(s1, s2, edits = 1) {
 
   if (Math.abs(s1.length - s2.length) > edits) return false;
 
-  let a = 0;
-  let b = 0;
-
   if (s1.length === s2.length) {
     sameLength(s1, s2);
   } else {
     notSameLength(s1, s2);
   }
 
-  console.log({ edits });
   return edits >= 0;
 
   //
