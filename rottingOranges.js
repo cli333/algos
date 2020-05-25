@@ -22,6 +22,8 @@ function solve(grid) {
   let minutes = 0;
   const goodOranges = {};
   const rottenOranges = {};
+  // fruit rots in waves
+  const waves = {};
 
   for (let r = 0; r < grid.length; r++) {
     for (let c = 0; c < grid[r].length; c++) {
@@ -30,36 +32,39 @@ function solve(grid) {
     }
   }
 
-  // for (let rotten in rottenOranges) {
-  //   const { r, c } = rottenOranges[rotten];
-  //   makeRotten(r + 1, c, grid);
-  //   makeRotten(r - 1, c, grid);
-  //   makeRotten(r, c + 1, grid);
-  //   makeRotten(r, c - 1, grid);
-  // }
+  for (let rotten in rottenOranges) {
+    const { r, c } = rottenOranges[rotten];
+    makeRotten(r + 1, c, grid, 0);
+    makeRotten(r - 1, c, grid, 0);
+    makeRotten(r, c + 1, grid, 0);
+    makeRotten(r, c - 1, grid, 0);
+  }
 
-  // // find leftover good oranges
-  // for (let good in goodOranges) {
-  //   const { r, c } = goodOranges[good];
-  //   if (grid[r][c] === 1) return -1;
-  // }
+  // find leftover good oranges
+  for (let good in goodOranges) {
+    const { r, c } = goodOranges[good];
+    if (grid[r][c] === 1) return -1;
+  }
 
-  // return minutes;
-
-  // function makeRotten(r, c, grid) {
-  //   if (!grid[r] || !grid[r][c] || grid[r][c] === 2 || grid[r][c] === 0) return;
-  //   if (grid[r][c] === 1) {
-  //     minutes++;
-
-  //     grid[r][c] = 2;
-  //     makeRotten(r + 1, c, grid);
-  //     makeRotten(r - 1, c, grid);
-  //     makeRotten(r, c + 1, grid);
-  //     makeRotten(r, c - 1, grid);
-  //   }
-  // }
-
+  console.log({ waves });
   return minutes;
+
+  function makeRotten(r, c, grid, wave) {
+    if (!grid[r] || !grid[r][c] || grid[r][c] === 2 || grid[r][c] === 0) return;
+    if (grid[r][c] === 1) {
+      console.log({ wave, r, c, grid });
+      if (!waves[wave]) {
+        minutes++;
+        waves[wave] = true;
+      }
+
+      grid[r][c] = 2;
+      makeRotten(r + 1, c, grid, wave + 1);
+      makeRotten(r - 1, c, grid, wave + 1);
+      makeRotten(r, c + 1, grid, wave + 1);
+      makeRotten(r, c - 1, grid, wave + 1);
+    }
+  }
 }
 
 console.log(
@@ -77,3 +82,10 @@ console.log(
   ])
 ); // -1, left corner orange never rots
 console.log(solve([[0, 2]])); // 0, no good oranges to rot
+console.log(
+  solve([
+    [2, 1, 1],
+    [1, 1, 1],
+    [1, 1, 1],
+  ])
+);
