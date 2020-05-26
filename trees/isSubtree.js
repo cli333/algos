@@ -16,6 +16,10 @@ c.left = d;
 c.right = e;
 e.right = f;
 
+const aa = new Node("e");
+const bb = new Node("gg");
+aa.right = bb;
+
 // check if subtree of tree
 
 const isSubtree = (main, sub) => {
@@ -28,3 +32,4 @@ const isSubtree = (main, sub) => {
 };
 
 console.log(isSubtree(e, b));
+console.log(isSubtree(a, aa));

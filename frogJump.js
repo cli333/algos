@@ -47,8 +47,9 @@ function solve(stones) {
   while (positions.length) {
     const position = positions.pop();
     const jump = jumps.pop();
+    // for 3 posibilities, k-1, k, k+1
     for (let i = jump - 1; i <= jump + 1; i++) {
-      if (i <= 0) continue;
+      if (i < 1) continue;
       const nextPosition = position + i;
       if (nextPosition === lastStone) {
         return true;
@@ -62,5 +63,31 @@ function solve(stones) {
   return false;
 }
 
-console.log(solve([0, 1, 3, 5, 6, 8, 12, 17])); // true
-console.log(solve([0, 1, 2, 3, 4, 8, 9, 11])); // false
+function solve2(stones) {
+  const stonePositions = stones.reduce(
+    (acc, val) => ({ ...acc, [val]: true }),
+    {}
+  );
+  // first position/jump always 0/1
+  const positions = [0];
+  const jumps = [1];
+
+  while (positions.length) {
+    const lastPosition = positions.pop();
+    const lastJump = jumps.pop();
+    for (let i = lastJump - 1; i <= lastJump + 1; i++) {
+      const nextPosition = lastPosition + i;
+      if (i < 1) continue;
+      if (nextPosition === stones[stones.length - 1]) {
+        return true;
+      } else if (nextPosition in stonePositions) {
+        positions.push(nextPosition);
+        jumps.push(i);
+      }
+    }
+  }
+  return false;
+}
+
+console.log(solve2([0, 1, 3, 5, 6, 8, 12, 17])); // true
+console.log(solve2([0, 1, 2, 3, 4, 8, 9, 11])); // false
