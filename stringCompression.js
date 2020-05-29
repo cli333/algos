@@ -79,6 +79,28 @@ const solve = (chars) => {
   return index;
 };
 
+function solve2(chars) {
+  let idx = 0;
+  let i = 0;
+  while (i < chars.length) {
+    let j = i;
+    while (j < chars.length && chars[j] !== chars[i]) {
+      j++;
+    }
+    idx++;
+    if (j - i > 1) {
+      let count = "" + j - i;
+      for (let c of count.split("")) {
+        chars[idx] = c;
+        idx++;
+      }
+    }
+    i = j;
+  }
+
+  return idx;
+}
+
 console.log(solve(["a", "a", "b", "b", "c", "c", "c"]));
 console.log(solve(["a"]));
 console.log(

@@ -53,9 +53,9 @@ const solve = (strings) => {
     maxUnique(strings, idx + 1, builtString);
   }
 
-  function map(string) {
-    return string.split("").reduce((acc, val) => ({ ...acc, [val]: true }), {});
-  }
+  // function map(string) {
+  //   return string.split("").reduce((acc, val) => ({ ...acc, [val]: true }), {});
+  // }
 
   function isUnique(string, map) {
     for (let char of string.split("")) {
