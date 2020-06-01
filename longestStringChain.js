@@ -19,6 +19,8 @@
 // words[i] only consists of English lowercase letters.
 
 function solve(words) {
+  // create map of words
+  // create arr of arrs grouped by word length
   const map = {};
   const wordList = [];
   for (let word of words) {
@@ -32,13 +34,19 @@ function solve(words) {
   }
 
   let max = 1;
+  // word list at most consist of 17 + 1 *(words[0] = 0 length words) groups
+  // max length of word = 17
   for (let len = 1; len < 17; len++) {
     if (!wordList[len]) continue;
+    // check words of "len" length
     for (let word of wordList[len]) {
       let preLen = len - 1;
       if (!wordList[preLen]) continue;
+      // check len - 1 words
       for (let preWord of wordList[preLen]) {
+        // if the preWord is a predecessor of the current word
         if (isPre(preWord, word)) {
+          // set val of current word to max(current word val, corresponding preword + 1 *(+1 to add the current word to the chain))
           map[word] = Math.max(map[word], map[preWord] + 1);
           max = Math.max(max, map[word]);
         }
@@ -48,18 +56,20 @@ function solve(words) {
 
   return max;
 
-  function isPre(w1, w2) {
+  function isPre(preWord, word) {
     let p1 = 0;
     let p2 = 0;
-    let found = false;
-    while (p1 < w1.length && p2 < w2.length) {
-      if (w1[p1] === w2[p2]) {
+    let foundBadChar = false;
+    while (p1 < preWord.length && p2 < word.length) {
+      if (preWord[p1] === word[p2]) {
         p1++;
         p2++;
-      } else if (found) {
+      } else if (foundBadChar) {
         return false;
       } else {
-        found = true;
+        // chars dont match
+        // move forward one and check again
+        foundBadChar = true;
         p2++;
       }
     }
