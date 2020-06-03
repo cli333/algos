@@ -16,12 +16,10 @@ function solve(nums, k) {
 
   let sum = 0;
   for (let i = 0; i < nums.length; i++) {
-    console.log({ map, sum, num: nums[i], k });
     sum += nums[i];
 
     if (k !== 0) {
       sum = sum % k;
-      console.log({ sum });
     }
 
     if (sum in map) {

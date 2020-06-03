@@ -41,7 +41,7 @@ function solve(s, wordDict) {
 
   // // runtime, o(2^n-1)
   // const wordSet = wordDict.reduce((acc, val) => ({ ...acc, [val]: true }), {});
-  // // memoize
+  //
   // return dfs(s, wordSet);
   // function dfs(s, set, memo = {}) {
   //   if (!s.length) return true;
