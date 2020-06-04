@@ -5,6 +5,7 @@ function solve(n) {
 
   // what is dp?
   // programming paradigm that solves a given problem by breaking into subproblems and storing results of subproblems to avoid computing again
+  // check if problems has overlapping sub-problem property => re-computation of same problems
 
   const dp = [...new Array(n + 1)].fill(0);
   dp[1] = 1;
