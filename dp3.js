@@ -11,16 +11,22 @@ function solve(nums) {
     }
   }
 
+  console.log(dp);
   return Math.max(...dp);
 }
 
 function solve2(nums) {
   let out = [];
+  const memo = {};
   generate(nums, 0, []);
   return out;
 
   function generate(nums, start, curList) {
-    out.push(curList.slice());
+    let str = JSON.stringify(curList);
+    if (!memo[str]) {
+      out.push(curList.slice());
+      memo[str] = true;
+    }
 
     for (let i = start; i < nums.length; i++) {
       if (!curList.length || curList[curList.length - 1] < nums[i]) {

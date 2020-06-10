@@ -53,5 +53,23 @@ function solve(l1, l2) {
   return out;
 }
 
+function solve2(l1, l2) {
+  return lcs(l1, l2, l1.length - 1, l2.length - 1);
+
+  function lcs(l1, l2, m, n) {
+    if (m < 0 || n < 0) {
+      return 0;
+    }
+
+    if (l1[m] === l2[n]) {
+      return 1 + lcs(l1, l2, m - 1, n - 1);
+    } else {
+      return Math.max(lcs(l1, l2, m, n - 1), lcs(l1, l2, m - 1, n));
+    }
+  }
+}
+
 console.log(solve("abcdefg", "abxdfg"));
 console.log(solve("beca", "abcd"));
+console.log(solve2("abcdefg", "abxdfg"));
+console.log(solve2("beca", "abcd"));
