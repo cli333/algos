@@ -77,3 +77,35 @@ function solve3(coins, V) {
 // console.log(solve2([1, 2, 3, 4], 11));
 // console.log(solve2([1, 2, 5], 11));
 console.log(solve3([1, 1, 2, 3, 4, 5, 7], 7));
+
+function sol(coins, V) {
+  let out = new Array(V);
+  const memo = {};
+  findCoins(coins, V);
+  return out;
+
+  function findCoins(coins, V, res = []) {
+    if (memo[JSON.stringify(res)]) {
+      return;
+    } else {
+      memo[JSON.stringify(res)] = true;
+    }
+
+    if (V === 0 && res.length < out.length) {
+      out = res.slice();
+      return;
+    }
+
+    if (V <= 0) {
+      return;
+    }
+
+    for (let coin of coins) {
+      if (coin <= V) {
+        res.push(coin);
+        findCoins(coins, V - coin, res);
+        res.pop();
+      }
+    }
+  }
+}
