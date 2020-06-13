@@ -81,3 +81,28 @@ console.log(
     [-1, 1, 0],
   ])
 );
+
+// function kad(nums) {
+//   let max = 0;
+//   let maxSoFar = nums[0];
+//   let curStart = 0;
+//   let start = -1;
+//   let end = -1;
+
+//   for (let i = 1; i < nums.length; i++) {
+//     maxSoFar += nums[i];
+//     if (maxSoFar < 0) {
+//       maxSoFar = 0;
+//       curStart = i + 1;
+//     }
+//     if (maxSoFar > max) {
+//       max = maxSoFar;
+//       start = curStart;
+//       end = i;
+//     }
+//   }
+
+//   return { max, start, end };
+// }
+
+// console.log(kad([0, 2, -5, 4, -7]));
