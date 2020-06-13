@@ -60,6 +60,7 @@ function solve2(n, k) {
     for (let j = 2; j <= k; j++) {
       dp[i][j] = Infinity;
       for (let x = 1; x <= j; x++) {
+        // add one for each attempt
         let res = 1 + Math.max(dp[i - 1][x - 1], dp[i][j - x]);
         if (res < dp[i][j]) dp[i][j] = res;
       }
