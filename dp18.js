@@ -51,16 +51,21 @@ function sol(matrix) {
   let maxBot = 0;
 
   for (let left = 0; left < cols; left++) {
-    for (let right = left; right < rows; right++) {
+    for (let right = left; right < cols; right++) {
+      // fill out the dp for current left and right boundaries
       for (let i = 0; i < rows; i++) {
         dp[i] += matrix[i][right];
       }
-      if (maxContig(dp).max > maxSum) {
+      // find max contigous arr for current dp
+      const { max, maxStart, maxEnd } = maxContig(dp);
+      if (max > maxSum) {
+        // horizontal boundaries correspond to our left and right pionters
         maxLeft = left;
         maxRight = right;
-        maxTop = maxContig(dp).maxStart;
-        maxBot = maxContig(dp).maxEnd;
-        maxSum = maxContig(dp).max;
+        // vertical boundaires/max correspond to whatever is returned from kadane's algo
+        maxTop = maxStart;
+        maxBot = maxEnd;
+        maxSum = max;
       }
     }
   }
