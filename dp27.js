@@ -26,6 +26,7 @@ function sol(matrix) {
           for (let n = 1; n <= 9; n++) {
             if (isValid(matrix, r, c, n)) {
               matrix[r][c] = n;
+              // if have reached the end
               if (solve(matrix)) return true;
               matrix[r][c] = 0;
             }
@@ -34,6 +35,8 @@ function sol(matrix) {
         }
       }
     }
+
+    // have filled all cells
     return true;
   }
 }
