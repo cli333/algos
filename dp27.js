@@ -25,11 +25,18 @@ function sol(matrix) {
         if (matrix[r][c] === 0) {
           for (let n = 1; n <= 9; n++) {
             if (isValid(matrix, r, c, n)) {
+              // set the number
               matrix[r][c] = n;
-              if (solve(matrix)) return true;
+              if (solve(matrix)) {
+                return true;
+              }
+              // unset the number
               matrix[r][c] = 0;
             }
           }
+          // triggers the backtracking on line 30
+          // if a number assignment doesn't pan out, returns false
+          // also when reach bottom of stack, will return false
           return false;
         }
       }
