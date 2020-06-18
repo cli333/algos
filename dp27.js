@@ -25,18 +25,22 @@ function sol(matrix) {
         if (matrix[r][c] === 0) {
           for (let n = 1; n <= 9; n++) {
             if (isValid(matrix, r, c, n)) {
+              // set the number
               matrix[r][c] = n;
-              // if have reached the end
-              if (solve(matrix)) return true;
+              if (solve(matrix)) {
+                return true;
+              }
+              // unset the number
               matrix[r][c] = 0;
             }
           }
+          // triggers the backtracking on line 30
+          // if a number assignment doesn't pan out, returns false
+          // also when reach bottom of stack, will return false
           return false;
         }
       }
     }
-
-    // have filled all cells
     return true;
   }
 }
@@ -55,7 +59,7 @@ console.log(
   ])
 );
 
-/* 
+/*
 Output:
           3 1 6 5 7 8 4 9 2
           5 2 9 1 3 4 7 6 8
@@ -66,7 +70,6 @@ Output:
           1 3 8 9 4 7 2 5 6
           6 9 2 3 5 1 8 7 4
           7 4 5 2 8 6 3 1 9
-
 [
   [3, 1, 6, 5, 7, 8, 4, 9, 2],
   [5, 2, 9, 1, 3, 4, 7, 6, 8],
