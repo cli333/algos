@@ -71,13 +71,18 @@ function sol2(s, p) {
   for (let i = 1; i < dp.length; i++) {
     for (let j = 1; j < dp[i].length; j++) {
       if (p[j - 1] === "." || p[j - 1] === s[i - 1]) {
+        // if the char at s matches char at p OR p is '.'
+        // cur cell is equal to left diagonal, in other words the result for the previous s char and p char
         dp[i][j] = dp[i - 1][j - 1];
       } else if (p[j - 1] === "*") {
+        // can have zero or more occurrences of the prev char p
+        // stay on same row and move 2 back
         dp[i][j] = dp[i][j - 2];
         if (p[j - 2] === "." || p[j - 2] === s[i - 1]) {
           dp[i][j] = dp[i][j] || dp[i - 1][j];
         }
       } else {
+        // char at p isn't asterisk(*) or dot(.)
         dp[i][j] = false;
       }
     }
