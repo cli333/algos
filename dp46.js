@@ -13,53 +13,53 @@
 // Input: "abcd"
 // Output: ["abcd"]
 
-function sol(S) {
-  const arr = toArr(S);
-  const res = [];
-  helper(0, "");
-  return res;
+// function sol(S) {
+//   const arr = toArr(S);
+//   const res = [];
+//   helper(0, "");
+//   return res;
 
-  function helper(idx, curString) {
-    if (curString === arr.length) {
-      res.push(curString);
-      return;
-    }
+//   function helper(idx, curString) {
+//     if (curString === arr.length) {
+//       res.push(curString);
+//       return;
+//     }
 
-    for (let i = idx; i < arr.length; i++) {
-      if (Array.isArray(arr[i])) {
-        for (let char of arr[i]) {
-          curString += char;
-          helper(i + 1, curString);
-          curString = curString.substring(0, curString.length - 1);
-        }
-      } else {
-        curString += arr[i];
-        if (curString.length === arr.length) {
-          res.push(curString);
-          return;
-        }
-      }
-    }
-  }
+//     for (let i = idx; i < arr.length; i++) {
+//       if (Array.isArray(arr[i])) {
+//         for (let char of arr[i]) {
+//           curString += char;
+//           helper(i + 1, curString);
+//           curString = curString.substring(0, curString.length - 1);
+//         }
+//       } else {
+//         curString += arr[i];
+//         if (curString.length === arr.length) {
+//           res.push(curString);
+//           return;
+//         }
+//       }
+//     }
+//   }
 
-  function toArr(S) {
-    S = S.replace(/,/g, "").split("");
-    const out = [];
-    while (S.length) {
-      let c = S.shift();
-      if (c === "{") {
-        out.push([]);
-        while (S[0] !== "}") {
-          out[out.length - 1].push(S.shift());
-        }
-        S.shift();
-      } else {
-        out.push(c);
-      }
-    }
-    return out;
-  }
-}
+//   function toArr(S) {
+//     S = S.replace(/,/g, "").split("");
+//     const out = [];
+//     while (S.length) {
+//       let c = S.shift();
+//       if (c === "{") {
+//         out.push([]);
+//         while (S[0] !== "}") {
+//           out[out.length - 1].push(S.shift());
+//         }
+//         S.shift();
+//       } else {
+//         out.push(c);
+//       }
+//     }
+//     return out;
+//   }
+// }
 
 function sol2(S) {
   const list = [];
