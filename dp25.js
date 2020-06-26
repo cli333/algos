@@ -54,4 +54,5 @@ function sol2(s1, s2) {
 }
 
 console.log(sol("horse", "ros")); // 3
+console.log(sol("hot", "log")); // 2
 console.log(sol2("horse", "ros"));

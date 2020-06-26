@@ -107,5 +107,72 @@ function sol(beginWord, endWord, wordList) {
     }
   }
 }
+//---------------------------------------------------
 
-console.log(sol("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]));
+function sol2(begin, end, words) {
+  const map = {};
+  // generate all words one edit distance away
+  for (let word of words) {
+    if (helper1(begin, word) === 1) {
+      if (!map[begin]) {
+        map[begin] = [word];
+      } else {
+        map[begin].push(word);
+      }
+    }
+  }
+
+  for (let i = 0; i < words.length; i++) {
+    for (let j = 0; j < words.length; j++) {
+      if (words[i] !== end && helper1(words[i], words[j]) === 1) {
+        if (!map[words[i]]) {
+          map[words[i]] = [words[j]];
+        } else {
+          map[words[i]].push(words[j]);
+        }
+      }
+    }
+  }
+
+  const res = [];
+  const used = words.reduce((acc, val) => ({ ...acc, [val]: false }), {});
+  helper2(begin, [begin], used);
+  return res;
+
+  function helper1(a, b, m = a.length, n = b.length) {
+    if (!m) return n;
+    if (!n) return m;
+    if (a[m - 1] === b[n - 1]) {
+      return helper1(a, b, m - 1, n - 1);
+    }
+
+    return (
+      1 +
+      Math.min(
+        helper1(a, b, m - 1, n),
+        helper1(a, b, m, n - 1),
+        helper1(a, b, m - 1, n - 1)
+      )
+    );
+  }
+
+  function helper2(curWord, list, used) {
+    if (curWord === end) {
+      res.push(list.slice());
+      return;
+    }
+
+    for (let nextWord of map[curWord]) {
+      if (used[nextWord] === false) {
+        used[nextWord] = true;
+        list.push(nextWord);
+        helper2(nextWord, list, used);
+        list.pop();
+        used[nextWord] = false;
+      }
+    }
+  }
+}
+
+// console.log(sol("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]));
+console.log(sol2("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]));
