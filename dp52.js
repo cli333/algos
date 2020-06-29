@@ -16,13 +16,12 @@
 // Output: ["eat", "oath"]
 
 function sol(board, words) {
-  const clone = JSON.parse(JSON.stringify(board));
-
   const res = [];
   for (let r = 0; r < board.length; r++) {
     for (let c = 0; c < board[r].length; c++) {
       for (let word of words) {
-        if (helper(word, 0, r, c, clone.slice())) res.push(word);
+        if (helper(word, 0, r, c, JSON.parse(JSON.stringify(board))))
+          res.push(word);
       }
     }
   }
@@ -33,7 +32,8 @@ function sol(board, words) {
     if (idx === word.length) return true;
     if (!board[row] || !board[row][col]) return false;
     if (word[idx] !== board[row][col]) return false;
-    // if (used[row][col] === true) return false;
+    if (used[row][col] === true) return false;
+    let temp = used[row][col];
     used[row][col] = true;
     if (
       helper(word, idx + 1, row - 1, col, used) ||
@@ -43,7 +43,7 @@ function sol(board, words) {
     ) {
       return true;
     }
-    used[row][col] = false;
+    used[row][col] = temp;
     return false;
   }
 }
