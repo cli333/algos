@@ -88,7 +88,6 @@ function sol(n, red, blue) {
     if (res[i] === Infinity) res[i] = -1;
   }
 
-  console.log({ visited });
   return res;
 }
 
