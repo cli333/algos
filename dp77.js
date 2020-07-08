@@ -26,7 +26,7 @@ function sol(n, edges, src, dst) {
   for (let e of edges) {
     const [from, to] = e;
     list[from] = list[from] ? [...list[from], to] : [to];
-    list[to] = list[to] ? [...list[to], from] : [from];
+    // list[to] = list[to] ? [...list[to], from] : [from];
   }
 
   return helper(src, dst, list, Array(n).fill(false));

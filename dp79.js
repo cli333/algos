@@ -11,11 +11,12 @@ function sol(nums, target) {
     const mid = start + Math.floor((end - start) / 2);
     if (nums[mid] === target) return mid;
     // left part is sorted
+    // target = 3
     if (nums[start] <= nums[mid]) {
       //
       //  [ 5,  6,  7,  0,  1,  2,  3,  4]
-      //    ^           ^               ^
-      //    start       mid             end
+      //    ^               ^           ^
+      //    start           mid         end
 
       // target is greater than max of the left part
       // OR target is less than the min of the left part
