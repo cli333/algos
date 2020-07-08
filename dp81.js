@@ -64,3 +64,25 @@ function sol(nums) {
 console.log(sol([1, 2, 3]));
 console.log(sol([3, 2, 1]));
 console.log(sol([1, 1, 5]));
+
+function perm(nums) {
+  if (nums.length < 2) {
+    return [nums];
+  }
+
+  const res = [];
+
+  for (let i = 0; i < nums.length; i++) {
+    let first = nums[i];
+    let rest = nums.slice(0, i).concat(nums.slice(i + 1));
+    let inner = perm(rest);
+
+    for (let p of inner) {
+      res.push([first, ...p]);
+    }
+  }
+
+  return res;
+}
+
+console.log(perm([1, 2, 3]));
