@@ -35,7 +35,6 @@ function sol(nums) {
     while (j > i && nums[j] <= nums[i]) {
       j--;
     }
-
     swap(i, j);
   }
 
@@ -53,7 +52,6 @@ function sol(nums) {
 
   function reverse(lo, hi) {
     while (lo < hi) {
-      console.log(nums);
       swap(lo, hi);
       lo++;
       hi--;
@@ -64,6 +62,7 @@ function sol(nums) {
 console.log(sol([1, 2, 3]));
 console.log(sol([3, 2, 1]));
 console.log(sol([1, 1, 5]));
+console.log(sol([1, 5, 2, 3, 4]));
 
 function perm(nums) {
   if (nums.length < 2) {
