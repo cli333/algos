@@ -72,13 +72,13 @@ function sol2(days, costs) {
 
     dp[i] = Math.min(dp[i], costs[0] + dp[i - 1]);
 
-    if (i - 7 >= 0) {
+    if (i - 7 >= 1) {
       dp[i] = Math.min(dp[i], costs[1] + dp[i - 1]);
     } else {
       dp[i] = Math.min(dp[i], costs[1]);
     }
 
-    if (i - 30 >= 0) {
+    if (i - 30 >= 1) {
       dp[i] = Math.min(dp[i], costs[2] + dp[i - 1]);
     } else {
       dp[i] = Math.min(dp[i], costs[2]);
