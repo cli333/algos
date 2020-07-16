@@ -29,13 +29,22 @@ function sol(start, root, k) {
   while (k) {
     let len = q.length;
     while (len) {
-      let node = q.shift();
-      let left = node.left;
-      let right = node.right;
-      let parent = findParent(root, node);
-      if (left && !visited.has(left.val)) q.push(left);
-      if (right && !visited.has(right.val)) q.push(right);
-      if (parent && !visited.has(parent.val)) q.push(parent);
+      const node = q.shift();
+      const left = node.left;
+      const right = node.right;
+      const parent = findParent(root, node);
+      if (left && !visited.has(left.val)) {
+        q.push(left);
+        visited.add(left.val);
+      }
+      if (right && !visited.has(right.val)) {
+        q.push(right);
+        visited.add(right.val);
+      }
+      if (parent && !visited.has(parent.val)) {
+        q.push(parent);
+        visited.add(parent.val);
+      }
       len--;
     }
     k--;
