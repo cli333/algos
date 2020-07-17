@@ -54,7 +54,7 @@ function sol(start, root, k) {
 }
 
 function findParent(root, target) {
-  if (!root || (!root.left && !root.right)) return null;
+  if (!root || (!root.left && !root.right) || root === target) return null;
   if (root.left === target || root.right === target) return root;
   return findParent(root.left, target) || findParent(root.right, target);
 }
