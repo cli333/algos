@@ -64,12 +64,9 @@ const e = new Node(8);
 const f = new Node(11);
 
 a.next = b;
-b.prev = a;
 b.next = c;
-c.prev = b;
 b.child = d;
 d.next = e;
-e.prev = d;
 e.child = f;
 
 function sol(head) {
@@ -95,7 +92,7 @@ function sol(head) {
         cur.next.prev = cur;
       }
       cur.child = null;
-    } else if (!cur.next && !stack.length) {
+    } else if (!cur.next && stack.length) {
       cur.next = stack.pop();
       if (cur.next) {
         cur.next.prev = cur;
@@ -103,6 +100,7 @@ function sol(head) {
     }
     cur = cur.next;
   }
+
   return head;
 }
 

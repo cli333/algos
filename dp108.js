@@ -38,9 +38,8 @@ function sol(accounts) {
   for (let mail in emailToName) {
     if (!visited.has(mail)) {
       visited.add(mail);
-      const list = [mail];
+      const list = [emailToName[mail], mail];
       helper(mail, list);
-      list.unshift(emailToName[mail]);
       res.push(list);
     }
   }
