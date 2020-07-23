@@ -12,7 +12,6 @@ function sol(nums, k) {
   let maxLen = 0;
   for (let i = 0; i < nums.length; i++) {
     sum += nums[i];
-    console.log({ sum, k, map }, sum - k);
     if (map[`${sum - k}`]) {
       maxLen = Math.max(maxLen, i - map[`${sum - k}`]);
     }
