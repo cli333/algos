@@ -42,12 +42,34 @@ class DSU {
       return;
     } else {
       // change parent[a] to point to b
-      this.parent[a] = b;
+      this.parent[b] = parentA;
     }
   }
 }
 
 function sol(edges) {
+  class DSU1 {
+    constructor(n) {
+      this.root = Array(n + 1)
+        .fill(0)
+        .map((_, idx) => idx);
+      // size = number of children
+      this.size = Array(n + 1).fill(1);
+    }
+    find(a) {
+      while (this.root[a] !== a) {
+        a = this.root[a];
+      }
+      return this.root[a];
+    }
+    union(a, b) {
+      const rootA = this.find(a);
+      const rootB = this.find(b);
+      if (rootA === rootB) return;
+      this.root[b] = rootA;
+      this.size[rootA]++;
+    }
+  }
   // edge = [5, 4], 5 is friend of 4
   // if you separated them into two groups
   // how many ways can you choose a group leader: 2 * 3 = 6
@@ -58,18 +80,22 @@ function sol(edges) {
   // 3 * 2 = 6
   const graph = {};
   for (let e of edges) {
-    const [from, to] = e;
-    graph[from] ? graph[from].push(to) : (graph[from] = [to]);
-    graph[to] ? graph[to].push(from) : (graph[to] = [from]);
+    const [a, b] = e;
+    graph[a] ? graph[a].push(b) : (graph[a] = [b]);
+    graph[b] ? graph[b].push(a) : (graph[b] = [a]);
   }
   const n = Object.keys(graph).length;
-  const dsu = new DSU(n);
+  const dsu = new DSU1(n);
   for (let e of edges) {
-    const [from, to] = e;
-    dsu.union(from, to);
+    const [a, b] = e;
+    dsu.union(a, b);
   }
-  console.log(dsu.find(1), dsu.find(2), dsu.find(3));
   console.log(dsu);
+  let res = 1;
+  for (let s of dsu.size) {
+    res *= s;
+  }
+  return res;
 }
 
 console.log(
