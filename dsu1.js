@@ -149,3 +149,172 @@ console.log(
 // 6
 // 7
 // 1
+
+function sol2(owls, edges, fights) {
+  class DSU {
+    constructor(n) {
+      // more negative the root, more children
+      this.root = Array(n + 1).fill(-1);
+    }
+    find(a) {
+      if (this.root[a] < 0) return a;
+      let x = this.find(this.root[a]);
+      // path compression, setting all chidlren to point to the root
+      this.root[a] = x;
+      return x;
+    }
+    union(a, b) {
+      this.root[a] = Math.min(this.root[a], -b);
+      this.root[b] = a;
+    }
+  }
+  const dsu = new DSU(owls);
+  for (let e of edges) {
+    const [a, b] = e;
+    dsu.union(a, b);
+  }
+  const res = [];
+  for (let f of fights) {
+    const [a, b] = f;
+    const findA = dsu.find(a);
+    const findB = dsu.find(b);
+    if (findA === findB) {
+      res.push("TIE");
+    } else {
+      res.push(findA < findB ? a : b);
+    }
+  }
+  return res;
+}
+
+console.log("//");
+console.log(
+  sol2(
+    5,
+    [
+      [2, 4],
+      [2, 1],
+      [3, 5],
+    ],
+    [
+      [1, 4],
+      [3, 4],
+    ]
+  )
+);
+// TIE
+// 3
+
+console.log(
+  sol2(
+    7,
+    [
+      [1, 2],
+      [3, 4],
+      [1, 7],
+    ],
+    [
+      [1, 2],
+      [5, 6],
+      [3, 7],
+      [1, 5],
+    ]
+  )
+);
+// TIE
+// 6
+// 7
+// 1
+function sol3() {
+  // union by rank
+  // the parent with more children, should be the new parent
+  class DSU {
+    constructor(n) {
+      this.size = Array(n + 1).fill(1);
+      this.root = Array(n + 1)
+        .fill(0)
+        .map((_, i) => i);
+    }
+    find(a) {
+      // path compression
+      if (this.root[a] !== a) {
+        this.root[a] = this.find(this.root[a]);
+      }
+      return this.root[a];
+    }
+    union(a, b) {
+      const rootA = this.find(a);
+      const rootB = this.find(b);
+      if (rootA === rootB) return;
+      if (this.size[rootA] > this.size[rootB]) {
+        this.size[rootA] += this.size[rootB];
+        this.root[rootB] = rootA;
+      } else {
+        this.size[rootB] += this.size[rootA];
+        this.root[rootA] = rootB;
+      }
+    }
+  }
+  const dsu = new DSU(7);
+  const edges = [
+    [1, 2],
+    [3, 4],
+    [1, 7],
+  ];
+  for (let e of edges) {
+    const [a, b] = e;
+    dsu.union(a, b);
+  }
+  return dsu;
+}
+
+console.log(sol3());
+
+function sol4() {
+  // detect cycle in an undirected graph, using a dsu
+  class DSU {
+    constructor(n) {
+      this.root = Array(n + 1)
+        .fill(0)
+        .map((_, i) => i);
+      this.size = Array(n + 1).fill(1);
+    }
+    find(a) {
+      if (this.root[a] !== a) {
+        this.root[a] = this.find(this.root[a]);
+      }
+      return this.root[a];
+    }
+    union(a, b) {
+      const rootA = this.find(a);
+      const rootB = this.find(b);
+      if (rootA === rootB) return;
+      if (this.size[rootA] > this.size[rootB]) {
+        this.size[rootA] += this.size[rootB];
+        this.root[rootB] = rootA;
+      } else {
+        this.size[rootB] += this.size[rootA];
+        this.root[rootA] = rootB;
+      }
+    }
+  }
+  const edges = [
+    [0, 1],
+    [1, 2],
+    [2, 0],
+  ];
+  const dsu = new DSU(2);
+  for (let e of edges) {
+    const [a, b] = e;
+    if (dsu.find(a) === dsu.find(b)) {
+      return {
+        result: "cycle detected",
+        dsu,
+      };
+    }
+    dsu.union(a, b);
+  }
+  return { result: "no cycle", dsu };
+}
+
+console.log(sol4());
