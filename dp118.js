@@ -25,29 +25,27 @@
 
 class DSU {
   constructor(n) {
-    this.size = Array(n + 1).fill(1);
     this.root = Array(n + 1)
-      .fill(1)
-      .map((_, idx) => idx);
+      .fill(0)
+      .map((_, i) => i);
+    this.size = Array(n + 1).fill(1);
   }
-
-  find(x) {
-    if (this.root[x] !== x) {
-      this.root[x] = this.find(this.root[x]);
+  find(a) {
+    if (this.root[a] !== a) {
+      this.root[a] = this.find(this.root[a]);
     }
-    return this.root[x];
+    return this.root[a];
   }
-
-  union(x, y) {
-    const rootX = this.find(x);
-    const rootY = this.find(y);
-    if (rootX === rootY) return false;
-    if (this.size[rootX] < this.size[rootY]) {
-      this.size[rootY] += this.size[rootX];
-      this.root[rootX] = rootY;
+  union(a, b) {
+    const rootA = this.find(a);
+    const rootB = this.find(b);
+    if (rootA === rootB) return false;
+    if (this.size[rootA] > this.size[rootB]) {
+      this.size[rootA] += this.size[rootB];
+      this.root[rootB] = rootA;
     } else {
-      this.size[rootX] += this.size[rootY];
-      this.root[rootY] = rootX;
+      this.size[rootB] += this.size[rootA];
+      this.root[rootA] = rootB;
     }
     return true;
   }
@@ -56,39 +54,39 @@ class DSU {
 function sol(edges) {
   // if a node has two parent nodes OR there is a cycle
   // remove an edge
+  // 1) check if it has two parents/neighbors
+  // 2) check if there is a cycle
+  const n = edges.length;
+  // count parents/neighbors of each node
+  const parents = Array(n + 1).fill(0);
+  let hasTwoParents = -1;
+  for (let e of edges) {
+    // graph is directed so [from, to]
+    // trying to find node with two parents
+    const [_, to] = e;
+    parents[to]++;
+    if (parents[to] === 2) {
+      // found the node
+      hasTwoParents = to;
+      break;
+    }
+  }
+  if (hasTwoParents === -1) return detectCycle(null);
+  for (let i = n - 1; i >= 0; i--) {
+    if (edges[i][1] === hasTwoParents) {
+      if (!detectCycle(edges[i])) return edges[i];
+    }
+  }
+  return [];
 
-  findRedundantConnection();
-
-  function detectCycle(n, skipEdge) {
+  function detectCycle(skipEdge) {
     const dsu = new DSU(n);
     for (let e of edges) {
       if (String(e) === String(skipEdge)) continue;
-      // if can't union this edge return the edge
       if (!dsu.union(e[0], e[1])) return e;
     }
+    // no cycle
     return null;
-  }
-
-  function findRedundantConnection() {
-    const n = edges.length;
-    const inDegrees = Array(n + 1).fill(0);
-    let hasTwoInDegrees = -1;
-    for (let e of edges) {
-      inDegrees[e[1]]++;
-      if (inDegrees[e[1]] === 2) {
-        hasTwoInDegrees = e[1];
-        break;
-      }
-    }
-    console.log({ inDegrees, hasTwoInDegrees });
-    if (hasTwoInDegrees === -1) return detectCycle(n, null);
-    for (let i = n - 1; i >= 0; i--) {
-      if (edges[i][1] === hasTwoInDegrees) {
-        if (detectCycle(n, edges[i]) === null) return edges[i];
-      }
-    }
-
-    return "nothing";
   }
 }
 
@@ -98,22 +96,16 @@ console.log(
     [1, 3],
     [2, 3],
   ]),
-  [2, 3]
+  [2, 3].toString()
 );
+
 console.log(
   sol([
     [1, 2],
-    [1, 3],
     [2, 3],
+    [3, 4],
+    [4, 1],
+    [1, 5],
   ]),
-  [4, 1]
-);
-console.log(
-  sol([
-    [2, 1],
-    [3, 1],
-    [4, 2],
-    [1, 4],
-  ]),
-  [2, 1]
+  [4, 1].toString()
 );
