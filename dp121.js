@@ -38,6 +38,7 @@ function sol(words) {
 
     for (let i = 1; i <= n; i++) {
       for (let j = 0; j < i; j++) {
+        // if word.substring(0, j) doesnt exist in set, then the current substring (0, i) cannot be broken down, so continue
         if (!dp[j]) continue;
         if (set.has(word.substring(j, i))) {
           dp[i] = true;
@@ -55,6 +56,7 @@ console.log(
     "cats",
     "catsdogcats",
     "dog",
+    "dogscats",
     "dogcatsdog",
     "hippopotamuses",
     "rat",

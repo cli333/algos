@@ -74,6 +74,7 @@ function sol(edges) {
   if (hasTwoParents === -1) return detectCycle(null);
   for (let i = n - 1; i >= 0; i--) {
     if (edges[i][1] === hasTwoParents) {
+      // if cannot detect cycle without this edge, it must be the correct edge
       if (!detectCycle(edges[i])) return edges[i];
     }
   }
