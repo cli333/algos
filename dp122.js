@@ -30,13 +30,13 @@ function sol(s) {
     }
   }
 
-  console.log(minPals);
   return minPals[1] - 1;
 
   function computeAllPals() {
     for (let i = n; i >= 1; i--) {
-      // one chars and two chars are pals
+      // fill to the left of the char, used to get correct index on line 42
       dp[i][i - 1] = true;
+      // char by itself is a pal
       dp[i][i] = true;
       for (let j = i + 1; j <= n; j++) {
         if (s[i - 1] === s[j - 1]) {

@@ -70,6 +70,7 @@ function sol2(n, connections) {
       dfs(i);
     }
   }
+  console.log({ parents, discovered, low });
   return res;
 
   function buildGraph() {
