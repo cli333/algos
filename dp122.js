@@ -30,6 +30,7 @@ function sol(s) {
     }
   }
 
+  console.log({ dp, minPals });
   return minPals[1] - 1;
 
   function computeAllPals() {
