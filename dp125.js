@@ -9,11 +9,9 @@
 // Output: False
 
 function sol(nums) {
-  let count = 0;
   return helper(nums.slice());
 
   function helper(a) {
-    count++;
     if (a.length === 1) {
       return a[0] === 24;
     }
@@ -22,9 +20,9 @@ function sol(nums) {
       for (let j = i + 1; j < a.length; j++) {
         const num1 = a[i];
         const num2 = a[j];
-        const b = a.slice();
 
         for (let d of compute(num1, num2)) {
+          const b = a.slice();
           b.splice(j, 1);
           b.splice(i, 1);
           b.push(d);

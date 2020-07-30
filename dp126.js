@@ -52,6 +52,7 @@ function sol(grid, k) {
 
   let steps = 0;
   while (q.length) {
+    console.log(q);
     let size = q.length;
     for (let i = 0; i < size; i++) {
       const [row, col, o] = q.shift();
@@ -62,6 +63,8 @@ function sol(grid, k) {
         const c = col + d[1];
         if (r >= 0 && r < m && c >= 0 && c < n) {
           const O = o + grid[r][c];
+          // if
+          // OR if current used obstacles is greater than K
           if (O >= seen[r][c] || O > k) continue;
           seen[r][c] = O;
           q.push([r, c, O]);
@@ -71,6 +74,7 @@ function sol(grid, k) {
     steps++;
   }
 
+  console.log(seen);
   return -1;
 }
 

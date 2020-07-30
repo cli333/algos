@@ -35,7 +35,7 @@ function sol(s) {
 
   function computeAllPals() {
     for (let i = n; i >= 1; i--) {
-      // fill to the left of the char, used to get correct index on line 42
+      // fill to the left of the char, used to get correct index on line 43
       dp[i][i - 1] = true;
       // char by itself is a pal
       dp[i][i] = true;
