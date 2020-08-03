@@ -78,3 +78,55 @@ function sol(A) {
 console.log(sol(["alex", "loves", "leetcode"]));
 console.log(sol(["catg", "ctaagt", "gcta", "ttca", "atgcatc"]));
 console.log(sol(["hello", "cat"]));
+
+function sol2(words) {
+  let res = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
+  for (let i = 0; i < words.length; i++) {
+    const used = Array(words.length).fill(false);
+    used[i] = true;
+    helper(words[i], used);
+  }
+  return res;
+
+  function helper(curWord, used) {
+    if (used.every((word) => word === true)) {
+      if (curWord.length < res.length) {
+        res = curWord;
+      }
+    }
+
+    for (let i = 0; i < words.length; i++) {
+      if (!used[i]) {
+        used[i] = true;
+        helper(merge(curWord, words[i]), used);
+        used[i] = false;
+      }
+    }
+  }
+
+  function merge(s1, s2) {
+    const len1 = s1.length;
+    const len2 = s2.length;
+    let o1 = 0;
+    let o2 = 0;
+    for (let i = 1; i < len1; i++) {
+      if (s1.substring(len1 - i) === s2.substring(0, i)) {
+        o1 = i;
+      }
+    }
+    for (let i = 1; i < len2; i++) {
+      if (s2.substring(len2 - i) === s1.substring(0, i)) {
+        o2 = i;
+      }
+    }
+    if (o1 > o2) {
+      return s1.substring(0, len1 - o1) + s2;
+    } else {
+      return s2.substring(0, len2 - o2) + s1;
+    }
+  }
+}
+
+console.log(sol2(["alex", "loves", "leetcode"]));
+console.log(sol2(["catg", "ctaagt", "gcta", "ttca", "atgcatc"]));
+console.log(sol2(["hello", "cat"]));
