@@ -59,6 +59,7 @@ function sol(
   for (let i = 0; i < wells.length; i++) {
     // [from, to, cost]
     // 0 means it's a well
+    // eg. [0, 1, 1] => [well, house1, cost = 1]
     q.push([0, i + 1, wells[i]]);
   }
   for (let p of pipes) {
