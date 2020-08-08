@@ -88,3 +88,54 @@ console.log(
   ]),
   1
 );
+
+function sol2(transactions) {
+  const balances = [];
+  for (let t of transactions) {
+    const [from, to, amount] = t;
+    balances[from] ? (balances[from] -= amount) : (balances[from] = -amount);
+    balances[to] ? (balances[to] += amount) : (balances[to] = amount);
+  }
+
+  return helper(0);
+
+  function helper(k) {
+    if (k === balances.length) return 0;
+    const curBalance = balances[k];
+    if (curBalance === 0) return helper(k + 1);
+
+    let min = Infinity;
+    for (let i = k + 1; i < balances.length; i++) {
+      const temp = balances[i];
+      if (curBalance * temp < 0) {
+        balances[i] += curBalance;
+        min = Math.min(min, 1 + helper(k + 1));
+        balances[i] = temp;
+      }
+    }
+    return min;
+  }
+}
+
+console.log(
+  sol2([
+    [0, 1, 10],
+    [2, 0, 5],
+  ]),
+  2
+);
+
+// Person #0 gave person #1 $10.
+// Person #2 gave person #0 $5.
+
+// Two transactions are needed.One way to settle the debt is person #1 pays person #0 and #2 $5 each.
+
+console.log(
+  sol2([
+    [0, 1, 10],
+    [1, 0, 1],
+    [1, 2, 5],
+    [2, 0, 5],
+  ]),
+  1
+);
