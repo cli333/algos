@@ -48,7 +48,7 @@ function sol(transactions) {
     if (k === amounts.length) return 0;
     const cur = amounts[k];
 
-    // skip this person
+    // skip this person, balance already 0
     if (cur === 0) return helper(k + 1, amounts);
 
     let min = Infinity;

@@ -52,6 +52,8 @@ function sol(nums, k) {
     right[i] = maxIndex;
   }
 
+  console.log({ dp, left, right });
+
   const res = Array(3).fill(-1);
   // starting index of middle subarray will be k
   // loop until n - k
