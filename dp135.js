@@ -139,3 +139,45 @@ console.log(
   ]),
   1
 );
+
+function sol3(transactions) {
+  const balances = [];
+  for (let t of transactions) {
+    const [from, to, amount] = t;
+    balances[from] ? (balances[from] -= amount) : (balances[from] = -amount);
+    balances[to] ? (balances[to] += amount) : (balances[to] = amount);
+  }
+  return helper(0);
+
+  function helper(idx) {
+    if (idx === balances.length) return 0;
+    if (balances[idx] === 0) return helper(idx + 1);
+    let min = Infinity;
+    for (let i = idx + 1; i < balances.length; i++) {
+      const temp = balances[i];
+      if (balances[idx] * temp < 0) {
+        balances[i] += balances[idx];
+        min = Math.min(min, 1 + helper(idx + 1));
+        balances[i] -= temp;
+      }
+    }
+    return min;
+  }
+}
+
+console.log(
+  sol3([
+    [0, 1, 10],
+    [2, 0, 5],
+  ]),
+  2
+);
+console.log(
+  sol3([
+    [0, 1, 10],
+    [1, 0, 1],
+    [1, 2, 5],
+    [2, 0, 5],
+  ]),
+  1
+);

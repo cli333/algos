@@ -59,3 +59,35 @@ function sol(s) {
 console.log(sol("()())()"), ["()()()", "(())()"]);
 console.log(sol("(a)())()"), ["(a)()()", "(a())()"]);
 console.log(sol(")("), []);
+
+function sol2(s) {
+  const res = [];
+  helper(s, 0, 0);
+  return res;
+
+  function helper(s, left, right, parens = ["(", ")"]) {
+    let bal = 0;
+    for (; right < s.length; right++) {
+      if (s[right] === parens[0]) bal++;
+      if (s[right] === parens[1]) bal--;
+      if (bal < 0) break;
+    }
+
+    if (bal < 0) {
+      for (; left <= right; left++) {
+        const cur = s[left];
+        if (cur !== parens[1]) continue;
+        if (left > 1 && s[left] === s[left - 1]) continue;
+        helper(s.substring(0, left) + s.substring(left + 1), left, right);
+      }
+    } else if (bal > 0) {
+      helper(s.split("").reverse().join(), 0, 0, parens.reverse());
+    } else {
+      res.push(parens[0] === "(" ? s : s.split("").reverse().join(""));
+    }
+  }
+}
+
+console.log(sol2("()())()"), ["()()()", "(())()"]);
+console.log(sol2("(a)())()"), ["(a)()()", "(a())()"]);
+console.log(sol2(")("), []);

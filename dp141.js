@@ -47,3 +47,46 @@ console.log(
     ["f", "g"],
   ])
 );
+
+function sol2(edges) {
+  const graph = {};
+  buildGraph();
+  const set = new Set();
+  const stack = [];
+  for (let edge in graph) {
+    if (!set.has(edge)) {
+      helper(edge);
+    }
+  }
+  return stack;
+
+  function helper(edge) {
+    set.add(edge);
+    for (let child of graph[edge]) {
+      if (!set.has(child)) {
+        helper(child);
+      }
+    }
+    stack.push(edge);
+  }
+
+  function buildGraph() {
+    for (let e of edges) {
+      const [from, to] = e;
+      graph[from] ? graph[from].push(to) : (graph[from] = [to]);
+      graph[to] ? null : (graph[to] = []);
+    }
+  }
+}
+
+console.log(
+  sol2([
+    ["a", "b"],
+    ["b", "c"],
+    ["b", "e"],
+    ["c", "d"],
+    ["d", "f"],
+    ["e", "f"],
+    ["f", "g"],
+  ])
+);
