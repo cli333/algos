@@ -375,3 +375,140 @@ function sol16(floors = 6, eggs = 2) {
 }
 
 console.log(sol16());
+
+// maximum sum sub-rectangular matrix
+
+function sol17(
+  matrix = [
+    [2, 1, -3, -4, 5],
+    [0, 6, 3, 4, 1],
+    [2, -2, -1, 4, -5],
+    [-3, 3, 1, 0, 3],
+  ]
+) {
+  const dp = Array(matrix.length).fill(0);
+  let maxSum = 0;
+  // boundaries
+  let maxLeft = 0;
+  let maxRight = 0;
+  let maxUp = 0;
+  let maxDown = 0;
+
+  for (let left = 0; left < matrix[0].length; left++) {
+    for (let right = left; right < matrix[0].length; right++) {
+      for (let i = 0; i < matrix.length; i++) {
+        dp[i] += matrix[i][right];
+      }
+      const { max, start, end } = sol18(dp);
+      if (max > maxSum) {
+        maxSum = max;
+        maxLeft = left;
+        maxRight = right;
+        maxUp = start;
+        maxDown = end;
+      }
+    }
+    // reset for next iteration of 'left'
+    dp.fill(0);
+  }
+  return { maxSum, maxLeft, maxRight, maxUp, maxDown };
+}
+
+console.log(sol17());
+
+// kadane's algo
+
+function sol18(arr = [-1, 3, -2, 5, -6, 1]) {
+  let curMax = 0;
+  let max = 0;
+  let start = 0;
+  let end = 0;
+  for (let i = 0; i < arr.length; i++) {
+    curMax += arr[i];
+    if (curMax < 0) {
+      curMax = 0;
+      start = i + 1;
+    }
+    if (curMax > max) {
+      max = curMax;
+      end = i;
+    }
+  }
+  return { max, start, end };
+}
+
+console.log(sol18(), 6);
+
+// weighted job scheduling
+
+function sol19(
+  jobs = [
+    [1, 3, 5],
+    [2, 5, 6],
+    [4, 6, 5],
+    [6, 7, 4],
+    [5, 8, 11],
+    [7, 9, 2],
+  ]
+) {
+  // [start, end, profit]
+  // sort by end times
+  jobs.sort(([s1, e1], [s2, e2]) => (e1 < e2 ? -1 : 1));
+  const dp = jobs.map(([start, end, profit]) => profit);
+
+  for (let i = 1; i < jobs.length; i++) {
+    for (let j = 0; j < i; j++) {
+      const [s1, e1] = jobs[j];
+      const [s2, e2, profit2] = jobs[i];
+      if (e1 <= s2) {
+        dp[i] = Math.max(dp[i], dp[j] + profit2);
+      }
+    }
+  }
+
+  return Math.max(...dp);
+}
+
+console.log(sol19(), 17);
+
+// longest common substring
+
+function sol20(
+  a = "cato",
+  b = "datz",
+  m = a.length - 1,
+  n = b.length - 1,
+  res = 0
+) {
+  if (!m || !n) {
+    return res;
+  }
+  if (a[m] === b[n]) {
+    return sol20(a, b, m - 1, n - 1, res + 1);
+  }
+  return Math.max(sol20(a, b, m - 1, n), sol20(a, b, m, n - 1));
+}
+
+console.log(sol20());
+
+function sol21(a = "cato", b = "datz") {
+  const dp = [];
+  for (let i = 0; i < a.length; i++) {
+    const row = [];
+    for (let j = 0; j < b.length; j++) {
+      row.push(0);
+    }
+    dp.push(row);
+  }
+
+  for (let i = 1; i < a.length; i++) {
+    for (let j = 1; j < b.length; j++) {
+      dp[i][j] =
+        (a[i - 1] === b[j - 1]) +
+        Math.max(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]);
+    }
+  }
+  return dp[a.length - 1][b.length - 1];
+}
+
+console.log(sol21());
