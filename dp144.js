@@ -512,3 +512,130 @@ function sol21(a = "cato", b = "datz") {
 }
 
 console.log(sol21());
+
+// max size rectangle of 1's in a matrix
+
+function sol22(
+  matrix = [
+    [1, 0, 0, 1, 1, 1],
+    [1, 0, 1, 1, 0, 1],
+    [0, 1, 1, 1, 1, 1],
+    [0, 0, 1, 1, 1, 1],
+  ]
+) {
+  let maxRectangle = 0;
+  const dp = matrix[0].slice();
+  // find max histogram
+  maxRectangle = Math.max(maxRectangle, maxHistogram(dp));
+  for (let i = 1; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      if (matrix[i][j] === 1) {
+        // add to the column
+        dp[j] += matrix[i][j];
+      } else {
+        // reset the column
+        dp[j] = 0;
+      }
+    }
+    // find max histogram
+    maxRectangle = Math.max(maxRectangle, maxHistogram(dp));
+  }
+
+  return maxRectangle;
+
+  function maxHistogram(arr) {
+    const stack = [];
+    let maxArea = 0;
+    let area = 0;
+    let i = 0;
+    for (; i < arr.length; ) {
+      if (!stack.length || arr[stack[stack.length - 1]] <= arr[i]) {
+        stack.push(i);
+        i++;
+      } else {
+        const top = stack.pop();
+        if (!stack.length) {
+          area = arr[top] * i;
+        } else {
+          area = arr[top] * (i - stack[stack.length - 1] - 1);
+        }
+        maxArea = Math.max(area, maxArea);
+      }
+    }
+    while (stack.length) {
+      const top = stack.pop();
+      if (!stack.length) {
+        area = arr[top] * i;
+      } else {
+        area = arr[top] * (i - stack[stack.length - 1] - 1);
+      }
+      maxArea = Math.max(maxArea, area);
+    }
+    return maxArea;
+  }
+}
+
+console.log(sol22());
+
+/* 
+  can split a word into all the words in a dictionary?
+*/
+
+function sol23(s, dict = ["I", "am", "a", "ace"]) {
+  const dp = [];
+  for (let i = 0; i < s.length; i++) {
+    const row = [];
+    for (let j = 0; j < s.length; j++) {
+      row.push(false);
+    }
+    dp.push(row);
+  }
+  for (let l = 1; l <= s.length; l++) {
+    for (let i = 0; i < s.length - l + 1; i++) {
+      const j = i + l - 1;
+      const curWord = s.substring(i, j + 1);
+      if (dict.indexOf(curWord) >= 0) {
+        // current word is in the dict, set to true
+        dp[i][j] = true;
+      } else {
+        // try slicing the current word at different indices
+        for (let k = i + 1; k <= j; k++) {
+          if (dp[i][k - 1] && dp[k][j]) {
+            dp[i][j] = true;
+            break;
+          }
+        }
+      }
+    }
+  }
+  return dp[0][s.length - 1];
+}
+
+console.log(sol23("Iamace"), sol23("Iamc"));
+
+// buy, sell stock for k transactions
+
+function sol24(prices = [2, 5, 7, 1, 4, 3, 1, 3], k = 3) {
+  const dp = [];
+  for (let i = 0; i <= k; i++) {
+    const row = [];
+    for (let j = 0; j < prices.length; j++) {
+      row.push(0);
+    }
+    dp.push(row);
+  }
+  // skip first row, 0 transactions = no profit
+  // skip first col, only 1 day = no profit
+  for (let i = 1; i <= k; i++) {
+    for (let j = 1; j < prices.length; j++) {
+      for (let m = 0; m < j; m++) {
+        // no transactions VS. (prices[current day] - prices[day[m]]) + best we can do if we choose day[m] ie. dp[...][m]
+        // max(previous day, current day - day[m] + dp[i-1][m])
+        dp[i][j] = Math.max(dp[i][j - 1], prices[j] - prices[m] + dp[i - 1][m]);
+      }
+    }
+  }
+  return dp[k][dp[k].length - 1];
+}
+
+console.log(sol24());
