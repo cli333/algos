@@ -638,4 +638,79 @@ function sol24(prices = [2, 5, 7, 1, 4, 3, 1, 3], k = 3) {
   return dp[k][dp[k].length - 1];
 }
 
-console.log(sol24());
+console.log(sol24(), 8);
+
+function sol25(prices = [2, 5, 7, 1, 4, 3, 1, 3], k = 3) {
+  let max = 0;
+  for (let i = 0; i < prices.length; i++) {
+    helper(i, 0);
+  }
+  return max;
+
+  function helper(buy, profit) {
+    if (k === 0) {
+      max = Math.max(max, profit);
+      return;
+    }
+
+    for (let sell = buy + 1; sell < prices.length; sell++) {
+      if (prices[buy] < prices[sell]) {
+        k--;
+        helper(sell + 1, profit + prices[sell] - prices[buy]);
+        k++;
+      }
+    }
+  }
+}
+
+console.log(sol25(), 8);
+
+// min jump to reach end
+
+function sol26(arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1]) {
+  // number at idx is the max number of jumps can take
+  const dp = arr.slice().fill(Infinity);
+  dp[0] = 0;
+
+  for (let i = 1; i < arr.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (arr[j] + j >= i) {
+        if (dp[j] + 1 < dp[i]) {
+          dp[i] = dp[j] + 1;
+        }
+      }
+    }
+  }
+
+  return dp[dp.length - 1];
+}
+
+console.log(sol26());
+
+function sol27(arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1]) {
+  let target = arr.length - 1;
+  let min = Infinity;
+  let record;
+  helper(0);
+  return { min, record };
+
+  function helper(i, total = 0, history = [0]) {
+    if (i === target) {
+      if (total < min) {
+        min = total;
+        record = history.slice();
+      }
+      return;
+    }
+
+    const maxJumps = arr[i];
+
+    for (let jumps = 1; jumps <= maxJumps; jumps++) {
+      history.push(i + jumps);
+      helper(i + jumps, total + 1, history);
+      history.pop();
+    }
+  }
+}
+
+console.log(sol27());
