@@ -714,3 +714,26 @@ function sol27(arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1]) {
 }
 
 console.log(sol27());
+
+function sol28(arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1]) {
+  // o(n)
+  let jumps = 1;
+  let ladder = arr[0];
+  let stair = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (i === arr.length - 1) {
+      return jumps;
+    }
+    if (i + arr[i] > ladder) {
+      ladder = i + arr[i];
+    }
+    stair--;
+    if (stair === 0) {
+      jumps++;
+      stair = ladder - i;
+    }
+  }
+  return jump;
+}
+
+console.log(sol28());
