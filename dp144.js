@@ -737,3 +737,144 @@ function sol28(arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1]) {
 }
 
 console.log(sol28());
+
+// min cost path
+// can only move right or down
+function sol29(
+  matrix = [
+    [1, 3, 5, 8],
+    [4, 2, 1, 7],
+    [4, 3, 2, 3],
+  ],
+  start = [0, 0],
+  end = [3, 2]
+) {
+  let min = Infinity;
+  helper();
+  // add end coords
+  return min + matrix[end[1]][end[0]];
+
+  function helper(cur = start.slice(), cost = 0) {
+    const [a, b] = cur;
+    const [x, y] = end;
+    if (a === x && b === y) {
+      min = Math.min(min, cost);
+      return;
+    }
+
+    if (!matrix[a] || !matrix[a][b]) return;
+
+    cost += matrix[a][b];
+
+    helper([a + 1, b], cost);
+    helper([a, b + 1], cost);
+  }
+}
+
+console.log(sol29());
+
+function sol30(
+  matrix = [
+    [1, 3, 5, 8],
+    [4, 2, 1, 7],
+    [4, 3, 2, 3],
+  ],
+  start = [0, 0],
+  end = [3, 2]
+) {
+  const dp = JSON.parse(JSON.stringify(matrix));
+  // fill first row
+  for (let i = 1; i < dp[0].length; i++) {
+    dp[0][i] += dp[0][i - 1];
+  }
+  // fill first col
+  for (let i = 1; i < dp.length; i++) {
+    dp[i][0] += dp[i - 1][0];
+  }
+
+  for (let row = 1; row < dp.length; row++) {
+    for (let col = 1; col < dp[row].length; col++) {
+      dp[row][col] += Math.min(dp[row - 1][col], dp[row][col - 1]);
+    }
+  }
+
+  return dp[end[1]][end[0]];
+}
+
+console.log(sol30());
+
+// wildcard matching
+function sol31(s, p) {
+  // * = 0 or more sequence
+  // ? = any one character
+  return helper();
+
+  function helper(text = s.split(""), pattern = p.split(""), p1 = 0, p2 = 0) {
+    if (p2 === pattern.length) {
+      return text.length === p1;
+    }
+
+    if (pattern[p2] !== "*") {
+      if (
+        (p1 < text.length && text[p1] === pattern[p2]) ||
+        pattern[p2] === "?"
+      ) {
+        return helper(text, pattern, p1 + 1, p2 + 1);
+      } else {
+        return false;
+      }
+    } else {
+      // multiple *
+      while (p2 < pattern.length - 1 && pattern[p2 + 1] === "*") {
+        p2++;
+      }
+      // p1--;
+      while (p1 < text.length) {
+        if (helper(text, pattern, p1 + 1, p2 + 1)) {
+          return true;
+        }
+        p1++;
+      }
+      return false;
+    }
+  }
+}
+
+console.log(sol31("xasdfzy", "x*y"), true);
+console.log(sol31("xasdfzy", "x?y"), false);
+console.log(sol31("xasdfzy", "xd??y"), false);
+console.log(sol31("xasdfzy", "x*d??y"), true);
+
+function sol32(s, p) {
+  const dp = [];
+  for (let i = 0; i <= s.length; i++) {
+    const row = [];
+    for (let j = 0; j <= p.length; j++) {
+      row.push(false);
+    }
+    dp.push(row);
+  }
+  // fill first row
+  dp[0].fill(false);
+  dp[0][0] = true;
+  // fill first col
+  for (let i = 1; i < dp.length; i++) {
+    dp[i][0] = false;
+  }
+
+  for (let i = 1; i <= s.length; i++) {
+    for (let j = 1; j <= p.length; j++) {
+      if (p[j - 1] === "?" || s[i - 1] === p[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else if (p[j - 1] === "*") {
+        dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
+      }
+    }
+  }
+
+  return dp[dp.length - 1][dp[dp.length - 1].length - 1];
+}
+
+console.log(sol32("xzy", "x*y"), true);
+console.log(sol32("xasy", "x?y"), false);
+console.log(sol32("xaylmz", "x?y*z"), true);
