@@ -7,13 +7,15 @@ const b = new Node(3);
 const c = new Node(2);
 const d = new Node(4);
 const e = new Node(5);
+const f = new Node(-1);
 
 a.next = b;
 b.next = c;
 c.next = d;
 d.next = e;
+e.next = f;
 
-const sort = head => {
+const sort = (head) => {
   if (!head || !head.next) return head;
   let temp = head;
   let slow = head;
@@ -34,7 +36,6 @@ const sort = head => {
   }
 
   temp.next = null;
-
   let leftSide = sort(head);
   let rightSide = sort(slow);
 
@@ -55,11 +56,9 @@ const sort = head => {
     }
     if (head1) {
       currentNode.next = head1;
-      head1 = head1.next;
     }
     if (head2) {
       currentNode.next = head2;
-      head2 = head.next;
     }
     return sortedHead.next;
   }

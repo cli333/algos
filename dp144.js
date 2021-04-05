@@ -419,22 +419,30 @@ console.log(sol17());
 // kadane's algo
 
 function sol18(arr = [-1, 3, -2, 5, -6, 1]) {
-  let curMax = 0;
-  let max = 0;
-  let start = 0;
-  let end = 0;
-  for (let i = 0; i < arr.length; i++) {
-    curMax += arr[i];
-    if (curMax < 0) {
-      curMax = 0;
-      start = i + 1;
-    }
-    if (curMax > max) {
-      max = curMax;
-      end = i;
-    }
+  // let curMax = 0;
+  // let max = 0;
+  // let start = 0;
+  // let end = 0;
+  // for (let i = 0; i < arr.length; i++) {
+  //   curMax += arr[i];
+  //   if (curMax < 0) {
+  //     curMax = 0;
+  //     start = i + 1;
+  //   }
+  //   if (curMax > max) {
+  //     max = curMax;
+  //     end = i;
+  //   }
+  // }
+  // return { max, start, end };
+
+  const n = arr.length;
+  const dp = Array(n).fill(0);
+  dp[0] = arr[0];
+  for (let i = 1; i < n; i++) {
+    dp[i] = Math.max(arr[i], arr[i] + dp[i - 1]);
   }
-  return { max, start, end };
+  return Math.max(...dp);
 }
 
 console.log(sol18(), 6);

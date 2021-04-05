@@ -49,6 +49,7 @@ function solve(str) {
     maxLen--;
   }
 
+  console.log(dp);
   return res;
 }
 

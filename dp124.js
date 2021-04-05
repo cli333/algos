@@ -94,3 +94,72 @@ console.log(
   ),
   7
 );
+
+function s(dungeon) {
+  // start top left
+  // only go right and bottom
+  // end at bottom right
+  // find health needed to reach end
+  const rows = dungeon.length;
+  const cols = dungeon[0].length;
+
+  let health = 0;
+  while (true) {
+    health++;
+    if (helper(health, 0, 0)) return health;
+  }
+
+  function helper(health, r, c) {
+    health += dungeon[r][c];
+    if (!health || health <= 0) return false;
+    if (r === rows - 1 && c === cols - 1) return true;
+    if (r === rows - 1) return helper(health, r, c + 1);
+    if (c === cols - 1) return helper(health, r + 1, c);
+    return helper(r + 1, c) || helper(health, r, c + 1);
+  }
+}
+
+function s2(dungeon) {
+  const dp = [];
+  const rows = dungeon.length;
+  const cols = dungeon[0].length;
+  for (let i = 0; i <= rows; i++) {
+    const row = [];
+    for (let j = 0; j <= cols; j++) {
+      row.push(Infinity);
+    }
+    dp.push(row);
+  }
+  dp[rows][cols - 1] = 1;
+  dp[rows - 1][cols] = 1;
+  for (let r = rows - 1; r >= 0; r--) {
+    for (let c = cols - 1; c >= 0; c--) {
+      let minHp = Math.min(dp[r + 1][c], dp[r][c + 1]);
+      minHp -= dungeon[r][c];
+      if (minHp < 1) {
+        dp[r][c] = 1;
+      } else {
+        dp[r][c] = minHp;
+      }
+    }
+  }
+  return dp[0][0];
+}
+
+console.log(
+  s([
+    [-2, -3, 3],
+    [-5, -10, 1],
+    [10, 30, -5],
+  ]),
+  7
+);
+
+console.log(
+  s2([
+    [-2, -3, 3],
+    [-5, -10, 1],
+    [10, 30, -5],
+  ]),
+  7
+);

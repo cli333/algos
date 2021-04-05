@@ -29,7 +29,7 @@ function sol(s) {
     }
   }
 
-  for (let k = 2; k < n; k++) {
+  for (let k = 3; k <= n; k++) {
     for (let i = 0; i < n - k + 1; i++) {
       let j = i + k - 1;
       if (dp[i + 1][j - 1] === true && s[i] === s[j]) {
@@ -38,6 +38,8 @@ function sol(s) {
           maxLen = k;
           start = i;
         }
+      } else {
+        dp[i][j] = false;
       }
     }
   }
